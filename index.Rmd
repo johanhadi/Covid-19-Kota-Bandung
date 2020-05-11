@@ -169,6 +169,8 @@ Peta Sebaran Covid-19 {data-icon="fa-map"}
 =======================================================================
 **Peta**
 ```{r}
+bins <- c(0, 5, 10, 20, 30, Inf)
+pal <- colorBin("Blues", domain = batas$Total, bins = bins)
 label1 <- sprintf(
   "<center><strong>%s<strong>%s</center>","Status : ",
   bandung$Status
@@ -179,22 +181,33 @@ label2 <- sprintf(
 ) %>% lapply(htmltools::HTML)
 actpal <- colorFactor(c("red","#1f77b4","forestgreen"), bandung$Status)
 leaflet(data = bandung) %>%
-  addProviderTiles("Stamen.TonerLite", group="Toner Lite") %>%
-  addProviderTiles("Stamen.Toner", group="Toner") %>%
-  addPolygons(data = batas, fillColor = "transparent", weight = 2 , color = "black", dashArray = 3,
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = batas, fillColor = "blue", weight = 2 , color = "black", dashArray = 3,
               highlightOptions = highlightOptions(weight = 10, color = "red", fillColor = "yellow"),
               label = label2,
               labelOptions = labelOptions(
                 style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px")) %>%
+                textsize = "15px"), group = "Peta Persebaran Covid-19") %>%
   addCircleMarkers(data = bandung, label = label1,
                    color = ~actpal(Status),clusterOptions = markerClusterOptions(),
-                   labelOptions = labelOptions(color = "red"))%>%
-  addLegend(position = "bottomright", pal = actpal, values = ~Status, title = "Keterangan", opacity = 0.6) %>%
+                   labelOptions = labelOptions(color = "red"), group = "Peta Persebaran Covid-19")%>%
+  addPolygons(data = batas, fillColor = ~pal(Total),
+  weight = 2,
+  opacity = 1,
+  color = "black",
+  dashArray = "3",
+  fillOpacity = 0.7,
+              label = label2,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px"), group = "Peta Choropleth Covid-19") %>%
+  addLegend(position = "bottomright", pal = actpal, values = ~Status, title = "Keterangan", opacity = 0.6, group = "Peta Persebaran Covid-19" ) %>%
+  addLegend(position = "bottomright", pal = pal, values = ~batas$Total, title = "Keterangan", opacity = 0.6, group = "Peta Choropleth Covid-19") %>%
   addLayersControl(
-    baseGroups = c("Toner Lite", "Toner"),options = layersControlOptions()) %>%
+   overlayGroups = c("Peta Persebaran Covid-19", "Peta Choropleth Covid-19"),options = layersControlOptions(collapsed = FALSE)) %>%
+  hideGroup("Peta Persebaran Covid-19")%>%
   addMiniMap(
-    tiles = providers$Stamen.TonerLite,
+    tiles = providers$CartoDB.Positron,
     toggleDisplay = TRUE, position = "bottomleft")%>%
   addEasyButton(easyButton(
     icon="fa-globe", title="Zoom Kota Bandung",
@@ -203,7 +216,7 @@ leaflet(data = bandung) %>%
 
 Grafik {data-icon="fas fa-chart-line"}
 =======================================================================
-Row {data-width=400}
+Column
 -----------------------------------------------------------------------
 ### Grafik Kasus Positif
 ```{r}
@@ -253,7 +266,7 @@ plot_ly(data = daily) %>%
     hovermode = "compare")
 ```
 
-Row {data-width=400}
+Column
 -----------------------------------------------------------------------
 ### Grafik Kasus Sembuh
 ```{r}
@@ -303,7 +316,7 @@ plot_ly(data = daily) %>%
     hovermode = "compare")
 ```
 
-Row {data-width=400}
+Column
 -----------------------------------------------------------------------
 ### Grafik Kasus Meninggal
 ```{r}
