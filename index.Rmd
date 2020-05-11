@@ -5,7 +5,6 @@ output:
     orientation: rows
     vertical_layout: fill
     social: menu
-    theme : readable
 runtime: shiny
 ---
 
@@ -231,7 +230,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   add_annotations(
     x = as.Date("2020-03-17"),
@@ -244,7 +243,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   layout(
     title = "",
@@ -281,7 +280,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   add_annotations(
     x = as.Date("2020-03-17"),
@@ -294,7 +293,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   layout(
     title = "",
@@ -331,7 +330,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   add_annotations(
     x = as.Date("2020-03-23"),
@@ -344,7 +343,7 @@ plot_ly(data = daily) %>%
     arrowsize = 1,
     showarrow = TRUE,
     ax = -10,
-    ay = -90
+    ay = -50
   ) %>%
   layout(
     title = "",
