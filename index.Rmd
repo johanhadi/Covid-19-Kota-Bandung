@@ -5,6 +5,7 @@ output:
     orientation: rows
     vertical_layout: fill
     social: menu
+    selfcontained : false
 runtime: shiny
 ---
 
@@ -124,7 +125,7 @@ add_trace(y = ~Meninggal,
               name = "Meninggal",
                     marker = list(color = death_color)) %>%
 layout(title = "", barmode = 'stack',
-                 yaxis = list(title = "Total Kasus", range = c(0,40)),
+                 yaxis = list(title = "Total Kasus", range = c(0,50)),
                  xaxis = list(title = "Kecamatan",
                  hovermode = "compare", annotations = list(
                    xref = "paper",
@@ -260,7 +261,7 @@ plot_ly(data = daily) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Positif"),
+    yaxis = list(title = "Kasus Positif"), range = c(0,300),
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -310,7 +311,7 @@ plot_ly(data = daily) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Sembuh"),
+    yaxis = list(title = "Kasus Sembuh"), range = c(0,50),
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -360,7 +361,7 @@ plot_ly(data = daily) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Meninggal"),
+    yaxis = list(title = "Kasus Meninggal"), range = c(0,50),
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
