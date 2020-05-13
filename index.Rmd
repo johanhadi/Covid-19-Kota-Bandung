@@ -40,9 +40,9 @@ rujukan <- read.xlsx("D:/covid-19.xlsx", sheet = "Rujukan")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 276
+jumlahpositif <- 279
 jumlahsembuh <- 46
-jumlahmeninggal <- 35
+jumlahmeninggal <- 36
 jumlahtotal <- jumlahmeninggal +jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
