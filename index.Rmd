@@ -146,8 +146,8 @@ add_trace(y = ~Meninggal,
                 name = "Meninggal",
                 marker = list(color = death_color)) %>%
 layout(title = "", barmode = 'stack',
-                 yaxis = list(title = "Total Kasus"),
-                 legend = list(x = 0.9, y = 0.5, orientation ="h", xanchor ="center"),
+                 yaxis = list(title = "Total Kasus", range = c(0,60)),
+                 legend = list(x = 0.9, y = 0.9, orientation ="h", xanchor ="center"),
                  hovermode = "compare")
 ```
 
