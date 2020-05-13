@@ -1,0 +1,14 @@
+f <- tempfile()
+writeLines(c("```{r}", "1 + 1", "```"), con = f)
+rmarkdown::render(f, quiet = TRUE)
+## [WARNING] This document format requires a nonempty <title> element.
+##   Please specify either 'title' or 'pagetitle' in the metadata.
+##   Falling back to 'file63fd452f6059.utf8'
+sessioninfo::package_info("rmarkdown")["rmarkdown", ]
+##  package   * version date       lib source                            
+##  rmarkdown   1.18.4  2019-12-04 [1] Github (rstudio/rmarkdown@3d648d3)
+## 
+## [1] /home/jdb-work/R/x86_64-pc-linux-gnu-library/3.6
+## [2] /usr/local/lib/R/site-library
+## [3] /usr/lib/R/site-library
+## [4] /usr/lib/R/library
