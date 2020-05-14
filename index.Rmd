@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 13 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 14 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -24,6 +24,7 @@ library(rmarkdown)
 library(knitr)
 library(plotly)
 library(leaflet.minicharts)
+library(mapview)
 #------------------ Warna ------------------
 confirmed_color <- "purple"
 active_color <- "#1f77b4"
@@ -37,6 +38,8 @@ topkec <- read.xlsx("D:/covid-19.xlsx", sheet = "Prov")
 daily <- read.xlsx("D:/covid-19.xlsx", sheet = "Daily")
 chart <- read.xlsx("D:/covid-19.xlsx", sheet = "Chart")
 rujukan <- read.xlsx("D:/covid-19.xlsx", sheet = "Rujukan")
+bubble <- read.xlsx("D:/covid-19.xlsx", sheet = "Bubble")
+bubble$Tanggal <- as.Date(bubble$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
@@ -53,8 +56,9 @@ label1 <- sprintf(
   bandung$Status
 ) %>% lapply(htmltools::HTML)
 label2 <- sprintf(
-  "<strong>%s<strong>%s<br/><strong>%s<strong>%s<br/><strong>%s<strong>%s<br/><strong>%s<strong>%s<br/>","Kecamatan ",
-  batas$WADMKC, "Positif    : ", batas$Positif, "Sembuh : ", batas$Sembuh,"Meninggal : ", batas$Meninggal
+  "<strong>%s<strong>%s<br/><strong>%s<strong>%s<br/><strong>%s<strong>%s<br/><strong>%s<strong>%s<br/><strong>%s<strong>%s","Kecamatan ",
+  batas$WADMKC, "Positif    : ", batas$Positif, "Sembuh : ", batas$Sembuh,"Meninggal : ", batas$Meninggal,
+  "Total Kasus   : ", batas$Total
 ) %>% lapply(htmltools::HTML)
 label3 <- sprintf(
   "<center><strong>%s<strong>%s</center>","Kecamatan ",
@@ -76,29 +80,29 @@ Rangkuman {data-icon="fas fa-home"}
 =======================================================================
 Row
 -----------------------------------------------------------------------
-### Total Kasus
+### Total Kasus {data-heigth=50}
 ```{r}
 
 valueBox(jumlahtotal, icon = "fas fa-user-md", color = "purple")
 ```
 
-### Positif
+### Positif {data-heigth=50}
 ```{r}
 valueBox(jumlahpositif, icon = "fa-plus", color = "#1f77b4")
 ```
 
-### Sembuh
+### Sembuh {data-heigth=50}
 ```{r}
 valueBox(jumlahsembuh, icon = "fa-medkit", color = "forestgreen")
 ```
 
-### Meninggal
+### Meninggal {data-heigth=50}
 ```{r}
 valueBox(jumlahmeninggal, 
          icon = "fa-ambulance", color = "red")
 ```
 
-### Layanan Kedaruratan
+### Layanan Kedaruratan {data-heigth=50}
 ```{r}
 layanan <- "119 atau 112"
 valueBox(layanan, 
@@ -106,7 +110,7 @@ valueBox(layanan,
 
 ```
 
-### Persentase Kesembuhan
+### Persentase Kesembuhan {data-heigth=50}
 ```{r}
 rate11 <- (jumlahsembuh/jumlahtotal)*100
 rate1 <- round(rate11, digits = 2)
@@ -115,7 +119,7 @@ gauge(rate1, min = 0, max = 100, symbol = '%',  gaugeSectors(
 ))
 ```
 
-### Persentase Kematian
+### Persentase Kematian {data-heigth=50}
 ```{r}
 rate22 <- (jumlahmeninggal/jumlahtotal)*100
 rate2 <- round(rate22, digits = 2)
@@ -217,6 +221,38 @@ leaflet(data = bandung) %>%
   addEasyButton(easyButton(
     icon="fa-globe", title="Zoom Kota Bandung",
     onClick=JS("function(btn, map){ map.setZoom(12); }")))
+```
+
+
+Peta (Beta) {data-icon="fa-map"}
+=======================================================================
+``` {r}
+leaflet(data = bubble) %>%
+  addProviderTiles("CartoDB.Positron") %>%
+  addPolygons(data = batas, fillColor = "blue", weight = 2 , color = "black", dashArray = 3,
+              highlightOptions = highlightOptions(weight = 10, color = "red", fillColor = "yellow"),
+              label = label2,
+              labelOptions = labelOptions(
+                style = list("font-weight" = "normal", padding = "3px 8px"),
+                textsize = "15px")) %>%
+  addMinicharts(
+    bubble$Long, bubble$Lat,
+    chartdata = bubble$Total,
+    time = bubble$Tanggal,
+    width = 60*sqrt(bubble$Total)/sqrt(max(bubble$Total)),
+    showLabels = TRUE, fillColor = confirmed_color
+  )%>%
+  addMarkers(
+      lng = rujukan$Long, lat = rujukan$Lat, icon = ikonrs,
+      popup = label4, group = "Rumah Sakit Rujukan",
+      labelOptions = labelOptions(noHide = T, direction = "right",
+                                  style = list("font-weight" = "normal", padding = "3px 8px"),
+                                  textsize = "15px")) %>%
+  addLayersControl(
+   overlayGroups = c("Rumah Sakit Rujukan"),options = layersControlOptions(collapsed = FALSE)) %>%
+   addMiniMap(
+    tiles = providers$CartoDB.Positron,
+    toggleDisplay = TRUE, position = "bottomleft") 
 ```
 
 Grafik {data-icon="fas fa-chart-line"}
