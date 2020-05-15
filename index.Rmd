@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 14 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 15 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -43,8 +43,8 @@ bubble$Tanggal <- as.Date(bubble$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 279
-jumlahsembuh <- 46
+jumlahpositif <- 282
+jumlahsembuh <- 62
 jumlahmeninggal <- 36
 jumlahtotal <- jumlahmeninggal +jumlahsembuh+jumlahpositif
 
@@ -174,7 +174,7 @@ add_trace(y = ~Meninggal,
                     name = "Meninggal",
                     fillcolor = death_color) %>%
 layout(title = "",
-                 yaxis = list(title = "Akumulasi Kasus"),
+                 yaxis = list(title = "Akumulasi Kasus", range = c(0,500)),
                  legend = list(x = 0.1, y = 0.9),
                  hovermode = "compare")
 ```
@@ -351,7 +351,7 @@ plot_ly(data = daily) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Sembuh", range = c(0,50)), 
+    yaxis = list(title = "Kasus Sembuh", range = c(0,70)), 
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -425,7 +425,7 @@ Tentang {data-icon="fas fa-id-card"}
 
 Update Terakhir `r format(max(daily$Tanggal), '%d %B')`
 
-Dashboard ini dibuat menggunakan R dengan Framework Rmarkdown, Flexdashboard (R Package), RLeaflet (R Package), dan Plotly (R Package).
+Dashboard ini dibuat menggunakan R dengan Framework Rmarkdown, Flexdashboard (R Package), RLeaflet (R Package), dan Plotly (R Package). Mohon Maaf Jika ada Kesalahan dalam input data maupun lainnya.
 
 **Sumber Data**
 
