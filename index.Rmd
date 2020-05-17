@@ -43,8 +43,8 @@ bubble$Tanggal <- as.Date(bubble$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 282
-jumlahsembuh <- 62
+jumlahpositif <- 288
+jumlahsembuh <- 74
 jumlahmeninggal <- 36
 jumlahtotal <- jumlahmeninggal +jumlahsembuh+jumlahpositif
 
