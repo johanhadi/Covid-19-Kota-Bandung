@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 16 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 17 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -76,7 +76,7 @@ ikonrs <- makeIcon(iconUrl = "https://www.freeiconspng.com/uploads/orange-hospit
 ```
 
 
-Rangkuman {data-icon="fas fa-home"}
+Home {data-icon="fas fa-home"}
 =======================================================================
 Row
 -----------------------------------------------------------------------
@@ -224,37 +224,6 @@ leaflet(data = bandung) %>%
 ```
 
 
-Peta (Beta) {data-icon="fa-map"}
-=======================================================================
-``` {r}
-leaflet(data = bubble) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(data = batas, fillColor = "blue", weight = 2 , color = "black", dashArray = 3,
-              highlightOptions = highlightOptions(weight = 10, color = "red", fillColor = "yellow"),
-              label = label2,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px")) %>%
-  addMinicharts(
-    bubble$Long, bubble$Lat,
-    chartdata = bubble$Total,
-    time = bubble$Tanggal,
-    width = 60*sqrt(bubble$Total)/sqrt(max(bubble$Total)),
-    showLabels = TRUE, fillColor = confirmed_color
-  )%>%
-  addMarkers(
-      lng = rujukan$Long, lat = rujukan$Lat, icon = ikonrs,
-      popup = label4, group = "Rumah Sakit Rujukan",
-      labelOptions = labelOptions(noHide = T, direction = "right",
-                                  style = list("font-weight" = "normal", padding = "3px 8px"),
-                                  textsize = "15px")) %>%
-  addLayersControl(
-   overlayGroups = c("Rumah Sakit Rujukan"),options = layersControlOptions(collapsed = FALSE)) %>%
-   addMiniMap(
-    tiles = providers$CartoDB.Positron,
-    toggleDisplay = TRUE, position = "bottomleft") 
-```
-
 Grafik {data-icon="fas fa-chart-line"}
 =======================================================================
 Column
@@ -351,7 +320,7 @@ plot_ly(data = daily) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Sembuh", range = c(0,70)), 
+    yaxis = list(title = "Kasus Sembuh", range = c(0,80)), 
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
