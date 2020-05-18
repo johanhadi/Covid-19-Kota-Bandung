@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 17 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 18 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -46,10 +46,10 @@ topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[o
 jumlahpositif <- 288
 jumlahsembuh <- 74
 jumlahmeninggal <- 36
-jumlahtotal <- jumlahmeninggal +jumlahsembuh+jumlahpositif
+jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
-bins <- c(0, 5, 10, 20, 30, Inf)
+bins <- c(0, 15, 30, 40, Inf)
 pal <- colorBin("Blues", domain = batas$Total, bins = bins)
 label1 <- sprintf(
   "<center><strong>%s<strong>%s</center>","Status : ",
@@ -294,7 +294,7 @@ plot_ly(data = daily) %>%
   ) %>%
   add_annotations(
     x = as.Date("2020-04-22"),
-    y = 35,
+    y = 62,
     text = "PSBB Bandung Raya",
     xref = "x",
     yref = "y",
