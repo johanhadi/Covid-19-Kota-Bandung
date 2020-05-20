@@ -78,134 +78,6 @@ ikonrs <- makeIcon(iconUrl = "https://www.freeiconspng.com/uploads/orange-hospit
 
 Home {data-icon="fas fa-home"}
 =======================================================================
-Row {.mobile}
------------------------------------------------------------------------
-### Total Kasus {.mobile}
-```{r}
-
-valueBox(jumlahtotal,caption = "Penambahan 0 Total Kasus", icon = "fas fa-user-md", color = "purple")
-```
-
-### Positif {.mobile}
-```{r}
-valueBox(jumlahpositif, caption = "Penambahan 0 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
-```
-
-### Sembuh {.mobile}
-```{r}
-valueBox(jumlahsembuh,caption = "Penambahan 0 Kasus Sembuh", icon = "fa-medkit", color = "forestgreen")
-```
-
-### Meninggal {.mobile}
-```{r}
-valueBox(jumlahmeninggal, caption = "Penambahan 0 Kasus Meninggal", 
-         icon = "fa-ambulance", color = "red")
-```
-
-### Layanan Kedaruratan {.mobile}
-```{r}
-layanan <- "119 atau 112"
-valueBox(layanan, 
-         icon = "fa-phone", color = "blue")
-
-```
-
-### Persentase Kesembuhan {.mobile}
-```{r}
-rate11 <- (jumlahsembuh/jumlahtotal)*100
-rate1 <- round(rate11, digits = 2)
-gauge(rate1, min = 0, max = 100, symbol = '%',  gaugeSectors(
-  success = c(11, 100), warning = c(6, 10), danger = c(0, 5)
-))
-```
-
-### Persentase Kematian {.mobile}
-```{r}
-rate22 <- (jumlahmeninggal/jumlahtotal)*100
-rate2 <- round(rate22, digits = 2)
-gauge(rate2, min = 0, max = 100, symbol = '%', gaugeSectors(
-  success = c(0, 5), warning = c(6, 10 ), danger = c(11, 100)
-))
-```
-
-Row {.mobile}
------------------------------------------------------------------------
-### Kecamatan Dengan Total Kasus Terbanyak
-```{r}
-plot_ly(data = topkec , x = ~Kecamatan, y = ~Positif, 
-                # text =  ~ Positif, 
-                # textposition = 'auto',
-                type = "bar", 
-                name = "Positif",
-                mode = "none",
-                marker = list(color = active_color)) %>%
-add_trace(y = ~Sembuh, 
-                # text =  ~ Sembuh, 
-                # textposition = 'auto',
-                name = "Sembuh",
-                marker = list(color = recovered_color)) %>%
-add_trace(y = ~Meninggal, 
-                # text =  ~ Meninggal, 
-                # textposition = 'auto', 
-                name = "Meninggal",
-                marker = list(color = death_color)) %>%
-layout(title = "", barmode = 'stack',
-                 yaxis = list(title = "Total Kasus", range = c(0,60)),
-                 legend = list(x = 0.9, y = 0.9, orientation ="h", xanchor ="center"),
-                 hovermode = "compare")
-```
-
-Row {.mobile}
------------------------------------------------------------------------
-### Akumulasi Kasus Harian
-```{r}
-plot_ly(data = daily,
-                x = ~Tanggal,
-                y = ~Positif, 
-                name = 'Positif', 
-                fillcolor = active_color,
-                type = 'scatter',
-                mode = 'none', 
-                stackgroup = 'one') %>%
-add_trace(y = ~Sembuh,
-                    name = "Sembuh",
-                    fillcolor = recovered_color) %>%
-add_trace(y = ~Meninggal,
-                    name = "Meninggal",
-                    fillcolor = death_color) %>%
-add_annotations(
-    x = as.Date("2020-05-06"),
-    y = 0,
-    text = "PSBB Provinsi Jawa Barat",
-    textangle = 0,
-    ax = 0,
-    ay = -200,
-    font = list(color = "orange", size = 12),
-    arrowhead = 0,
-    arrowcolor = "orange",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-add_annotations(
-    x = as.Date("2020-04-22"),
-    y = 0,
-    text = "PSBB Provinsi Bandung Raya",
-    textangle = 0,
-    ax = 0,
-    ay = -150,
-    font = list(color = "orange", size = 12),
-    arrowhead = 0,
-    arrowcolor = "orange",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-layout(title = "",
-                 yaxis = list(title = "Akumulasi Kasus", range = c(0,500)),
-                 legend = list(x = 0.1, y = 0.9),
-                 hovermode = "compare")
-```
-
-
 Row {.no-mobile}
 -----------------------------------------------------------------------
 ### Total Kasus {.no-mobile}
@@ -307,7 +179,7 @@ add_annotations(
     text = "PSBB Provinsi Jawa Barat",
     textangle = 0,
     ax = 0,
-    ay = -200,
+    ay = -130,
     font = list(color = "orange", size = 12),
     arrowhead = 0,
     arrowcolor = "orange",
@@ -320,7 +192,7 @@ add_annotations(
     text = "PSBB Provinsi Bandung Raya",
     textangle = 0,
     ax = 0,
-    ay = -150,
+    ay = -115,
     font = list(color = "orange", size = 12),
     arrowhead = 0,
     arrowcolor = "orange",
@@ -335,47 +207,6 @@ layout(title = "",
 
 Peta {data-icon="fa-map"}
 =======================================================================
-```{r, .mobile}
-leaflet(data = bandung) %>%
-  addProviderTiles("CartoDB.Positron") %>%
-  addPolygons(data = batas, fillColor = "blue", weight = 2 , color = "black", dashArray = 3,
-              highlightOptions = highlightOptions(weight = 10, color = "red", fillColor = "yellow"),
-              label = label3,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px"), group = "Peta Persebaran Covid-19") %>%
-  addCircleMarkers(data = bandung, label = label1,
-                   color = ~actpal(Status),clusterOptions = markerClusterOptions(),
-                   labelOptions = labelOptions(color = "red"), group = "Peta Persebaran Covid-19")%>%
-  addMarkers(
-      lng = rujukan$Long, lat = rujukan$Lat, icon = ikonrs,
-      popup = label4, group = "Rumah Sakit Rujukan",
-      labelOptions = labelOptions(noHide = T, direction = "right",
-                                  style = list("font-weight" = "normal", padding = "3px 8px"),
-                                  textsize = "15px")) %>%
-  addPolygons(data = batas, fillColor = ~pal(Total), highlightOptions = highlightOptions(weight = 10, color = "red", fillColor = "yellow"),
-  weight = 2,
-  opacity = 1,
-  color = "black",
-  dashArray = "3",
-  fillOpacity = 0.7,
-              label = label2,
-              labelOptions = labelOptions(
-                style = list("font-weight" = "normal", padding = "3px 8px"),
-                textsize = "15px"), group = "Peta Choropleth Covid-19") %>%
-  addLegend(position = "bottomright", pal = actpal, values = ~Status, title = "Keterangan", opacity = 0.6, group = "Peta Persebaran Covid-19" ) %>%
-  addLegend(position = "bottomright", pal = pal, values = ~batas$Total, title = "Keterangan", opacity = 0.6, group = "Peta Choropleth Covid-19") %>%
-  addLayersControl(
-   overlayGroups = c("Peta Persebaran Covid-19", "Peta Choropleth Covid-19", "Rumah Sakit Rujukan"),options = layersControlOptions(collapsed = FALSE)) %>%
-  hideGroup("Peta Choropleth Covid-19")%>%
-  addMiniMap(
-    tiles = providers$CartoDB.Positron,
-    toggleDisplay = TRUE, position = "bottomleft")%>%
-  addEasyButton(easyButton(
-    icon="fa-globe", title="Zoom Kota Bandung",
-    onClick=JS("function(btn, map){ map.setZoom(12); }")))
-```
-
 ```{r,.no-mobile}
 leaflet(data = bandung) %>%
   addProviderTiles("CartoDB.Positron") %>%
@@ -441,7 +272,7 @@ plot_ly(data = tren) %>%
     text = "PSBB Bandung Raya",
     textangle = 0,
     ax = 0,
-    ay = -150,
+    ay = -60,
     font = list(color = "red", size = 12),
     arrowhead = 1,
     arrowcolor = "red",
@@ -454,7 +285,7 @@ plot_ly(data = tren) %>%
     text = "PSBB Provinsi Jawa Barat",
     textangle = 0,
     ax = 0,
-    ay = -100,
+    ay = -75,
     font = list(color = "red", size = 12),
     arrowhead = 1,
     arrowcolor = "red",
@@ -463,7 +294,7 @@ plot_ly(data = tren) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Positif Harian", range = c(0,45)),
+    yaxis = list(title = "Kasus Harian", range = c(0,45)),
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -491,7 +322,7 @@ plot_ly(data = tren) %>%
     text = "PSBB Bandung Raya",
     textangle = 0,
     ax = 0,
-    ay = -100,
+    ay = -75,
     font = list(color = "red", size = 12),
     arrowhead = 1,
     arrowcolor = "red",
@@ -513,7 +344,7 @@ plot_ly(data = tren) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Sembuh Harian", range = c(0,15)), 
+    yaxis = list(title = "Kasus Harian", range = c(0,15)), 
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -563,157 +394,7 @@ plot_ly(data = tren) %>%
   ) %>%
   layout(
     title = "",
-    yaxis = list(title = "Kasus Meninggal Harian", range = c(0,20)),
-    xaxis = list(title = "Tanggal"),
-    legend = list(x = 0.1, y = 0.9),
-    hovermode = "compare")
-```
-
-Row {.mobile}
------------------------------------------------------------------------
-### Grafik Kasus Positif
-```{r}
-plot_ly(data = tren) %>%
-  add_trace(
-    x = ~Tanggal,
-    # y = ~Positif,
-    y = ~Positif,
-    type = "scatter",
-    mode = "lines+markers",
-    # name = "Kasus Positif",
-    name = "Kasus Positif",
-    line = list(color = active_color),
-    marker = list(color = active_color)
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-04-22"),
-    y = 3,
-    text = "PSBB Bandung Raya",
-    textangle = 0,
-    ax = 0,
-    ay = -150,
-    font = list(color = "red", size = 12),
-    arrowhead = 0,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-05-06"),
-    y = 1,
-    text = "PSBB Provinsi Jawa Barat",
-    textangle = 0,
-    ax = 0,
-    ay = -100,
-    font = list(color = "red", size = 12),
-    arrowhead = 1,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  layout(
-    title = "",
-    yaxis = list(title = "Kasus Positif Harian", range = c(0,45)),
-    xaxis = list(title = "Tanggal"),
-    legend = list(x = 0.1, y = 0.9),
-    hovermode = "compare")
-```
-
-Row {.mobile}
------------------------------------------------------------------------
-### Grafik Kasus Sembuh
-```{r}
-plot_ly(data = tren) %>%
-  add_trace(
-    x = ~Tanggal,
-    # y = ~Sembuh,
-    y = ~Sembuh,
-    type = "scatter",
-    mode = "lines+markers",
-    # name = "Sembuh",
-    name = "Sembuh",
-    line = list(color = confirmed_color),
-    marker = list(color = confirmed_color)
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-04-22"),
-    y = 2,
-    text = "PSBB Bandung Raya",
-    textangle = 0,
-    ax = 0,
-    ay = -100,
-    font = list(color = "red", size = 12),
-    arrowhead = 1,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-05-06"),
-    y = 0,
-    text = "PSBB Provinsi Jawa Barat",
-    textangle = 0,
-    ax = 0,
-    ay = -40,
-    font = list(color = "red", size = 12),
-    arrowhead = 1,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  layout(
-    title = "",
-    yaxis = list(title = "Kasus Sembuh Harian", range = c(0,15)), 
-    xaxis = list(title = "Tanggal"),
-    legend = list(x = 0.1, y = 0.9),
-    hovermode = "compare")
-```
-
-Row {.mobile}
------------------------------------------------------------------------
-### Grafik Kasus Meninggal
-```{r}
-plot_ly(data = tren) %>%
-  add_trace(
-    x = ~Tanggal,
-    # y = ~Meninggal,
-    y = ~Meninggal,
-    type = "scatter",
-    mode = "lines+markers",
-    # name = "Meninggal",
-    name = "Meninggal",
-    line = list(color = active_color),
-    marker = list(color = active_color)
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-04-22"),
-    y = 0,
-    text = "PSBB Bandung Raya",
-    textangle = 0,
-    ax = 0,
-    ay = -40,
-    font = list(color = "red", size = 12),
-    arrowhead = 1,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  add_annotations(
-    x = as.Date("2020-05-06"),
-    y = 0,
-    text = "PSBB Provinsi Jawa Barat",
-    textangle = 0,
-    ax = 0,
-    ay = -70,
-    font = list(color = "red", size = 12),
-    arrowhead = 1,
-    arrowcolor = "red",
-    arrowsize = 1,
-    showarrow = TRUE
-  ) %>%
-  layout(
-    title = "",
-    yaxis = list(title = "Kasus Meninggal Harian", range = c(0,20)),
+    yaxis = list(title = "Kasus Harian", range = c(0,20)),
     xaxis = list(title = "Tanggal"),
     legend = list(x = 0.1, y = 0.9),
     hovermode = "compare")
@@ -722,15 +403,6 @@ plot_ly(data = tren) %>%
 Data {data-icon="fas fa-table"}
 =======================================================================
 Row {.no-mobile}
------------------------------------------------------------------------
-### Data Harian Covid-19 Kota Bandung
-```{r}
-datatable(daily, options = list(
-  bPaginate = FALSE
-))
-```
-
-Row {.mobile}
 -----------------------------------------------------------------------
 ### Data Harian Covid-19 Kota Bandung
 ```{r}
