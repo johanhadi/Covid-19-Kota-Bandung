@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 20 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 21 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -43,8 +43,8 @@ tren$Tanggal <- as.Date(tren$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 288
-jumlahsembuh <- 74
+jumlahpositif <- 291
+jumlahsembuh <- 76
 jumlahmeninggal <- 36
 jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
@@ -83,12 +83,12 @@ Row {.no-mobile}
 ### Total Kasus {.no-mobile}
 ```{r}
 
-valueBox(jumlahtotal,caption = "Penambahan 0 Total Kasus", icon = "fas fa-user-md", color = "purple")
+valueBox(jumlahtotal,caption = "Penambahan 3 Total Kasus", icon = "fas fa-user-md", color = "purple")
 ```
 
 ### Positif {.no-mobile}
 ```{r}
-valueBox(jumlahpositif, caption = "Penambahan 0 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
+valueBox(jumlahpositif, caption = "Penambahan 3 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
 ```
 
 ### Sembuh {.no-mobile}
@@ -179,7 +179,7 @@ add_annotations(
     text = "PSBB Provinsi Jawa Barat",
     textangle = 0,
     ax = 0,
-    ay = -130,
+    ay = -105,
     font = list(color = "orange", size = 12),
     arrowhead = 0,
     arrowcolor = "orange",
@@ -192,7 +192,7 @@ add_annotations(
     text = "PSBB Provinsi Bandung Raya",
     textangle = 0,
     ax = 0,
-    ay = -115,
+    ay = -100,
     font = list(color = "orange", size = 12),
     arrowhead = 0,
     arrowcolor = "orange",
