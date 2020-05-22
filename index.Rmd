@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 21 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 22 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -49,7 +49,7 @@ jumlahmeninggal <- 36
 jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
-bins <- c(0, 15, 30, 40, Inf)
+bins <- c(0, 15, 30, 45, Inf)
 pal <- colorBin("Blues", domain = batas$Total, bins = bins)
 label1 <- sprintf(
   "<center><strong>%s<strong>%s</center>","Status : ",
@@ -83,12 +83,12 @@ Row {.no-mobile}
 ### Total Kasus {.no-mobile}
 ```{r}
 
-valueBox(jumlahtotal,caption = "Penambahan 3 Total Kasus", icon = "fas fa-user-md", color = "purple")
+valueBox(jumlahtotal,caption = "Penambahan 1 Total Kasus", icon = "fas fa-user-md", color = "purple")
 ```
 
 ### Positif {.no-mobile}
 ```{r}
-valueBox(jumlahpositif, caption = "Penambahan 3 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
+valueBox(jumlahpositif, caption = "Penambahan 1 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
 ```
 
 ### Sembuh {.no-mobile}
