@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 22 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 23 Mei 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -43,9 +43,9 @@ tren$Tanggal <- as.Date(tren$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 291
-jumlahsembuh <- 76
-jumlahmeninggal <- 36
+jumlahpositif <- 296
+jumlahsembuh <- 90
+jumlahmeninggal <- 38
 jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
