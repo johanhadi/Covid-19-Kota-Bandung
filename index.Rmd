@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 23 Mei 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 5 Juni 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -43,13 +43,13 @@ tren$Tanggal <- as.Date(tren$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 296
-jumlahsembuh <- 90
+jumlahpositif <- 309
+jumlahsembuh <- 137
 jumlahmeninggal <- 38
 jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
-bins <- c(0, 15, 30, 45, Inf)
+bins <- c(0, 20, 40, 60, Inf)
 pal <- colorBin("Blues", domain = batas$Total, bins = bins)
 label1 <- sprintf(
   "<center><strong>%s<strong>%s</center>","Status : ",
@@ -78,31 +78,31 @@ ikonrs <- makeIcon(iconUrl = "https://www.freeiconspng.com/uploads/orange-hospit
 
 Home {data-icon="fas fa-home"}
 =======================================================================
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
-### Total Kasus {.no-mobile}
+### Total Kasus
 ```{r}
 
-valueBox(jumlahtotal,caption = "Penambahan 1 Total Kasus", icon = "fas fa-user-md", color = "purple")
+valueBox(jumlahtotal,caption = "Penambahan 2 Total Kasus", icon = "fas fa-user-md", color = "purple")
 ```
 
-### Positif {.no-mobile}
+### Positif
 ```{r}
-valueBox(jumlahpositif, caption = "Penambahan 1 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
+valueBox(jumlahpositif, caption = "Penambahan 2 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
 ```
 
-### Sembuh {.no-mobile}
+### Sembuh
 ```{r}
 valueBox(jumlahsembuh,caption = "Penambahan 0 Kasus Sembuh", icon = "fa-medkit", color = "forestgreen")
 ```
 
-### Meninggal {.no-mobile}
+### Meninggal
 ```{r}
 valueBox(jumlahmeninggal, caption = "Penambahan 0 Kasus Meninggal", 
          icon = "fa-ambulance", color = "red")
 ```
 
-### Layanan Kedaruratan {.no-mobile}
+### Layanan Kedaruratan
 ```{r}
 layanan <- "119 atau 112"
 valueBox(layanan, 
@@ -110,7 +110,7 @@ valueBox(layanan,
 
 ```
 
-### Persentase Kesembuhan {.no-mobile}
+### Persentase Kesembuhan
 ```{r}
 rate11 <- (jumlahsembuh/jumlahtotal)*100
 rate1 <- round(rate11, digits = 2)
@@ -119,7 +119,7 @@ gauge(rate1, min = 0, max = 100, symbol = '%',  gaugeSectors(
 ))
 ```
 
-### Persentase Kematian {.no-mobile}
+### Persentase Kematian
 ```{r}
 rate22 <- (jumlahmeninggal/jumlahtotal)*100
 rate2 <- round(rate22, digits = 2)
@@ -128,9 +128,9 @@ gauge(rate2, min = 0, max = 100, symbol = '%', gaugeSectors(
 ))
 ```
 
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
-### Kecamatan Dengan Total Kasus Terbanyak {.no-mobile}
+### Kecamatan Dengan Total Kasus Terbanyak
 ```{r}
 plot_ly(data = topkec , x = ~Kecamatan, y = ~Positif, 
                 # text =  ~ Positif, 
@@ -155,9 +155,9 @@ layout(title = "", barmode = 'stack',
                  hovermode = "compare")
 ```
 
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
-### Akumulasi Kasus Harian {.no-mobile}
+### Akumulasi Kasus Harian
 ```{r}
 plot_ly(data = daily,
                 x = ~Tanggal,
@@ -199,6 +199,19 @@ add_annotations(
     arrowsize = 1,
     showarrow = TRUE
   ) %>%
+add_annotations(
+    x = as.Date("2020-05-30"),
+    y = 0,
+    text = "PSBB Lanjutan Kota Bandung",
+    textangle = 0,
+    ax = 0,
+    ay = -100,
+    font = list(color = "orange", size = 12),
+    arrowhead = 0,
+    arrowcolor = "orange",
+    arrowsize = 1,
+    showarrow = TRUE
+  ) %>%
 layout(title = "",
                  yaxis = list(title = "Akumulasi Kasus", range = c(0,500)),
                  legend = list(x = 0.1, y = 0.9),
@@ -207,7 +220,7 @@ layout(title = "",
 
 Peta {data-icon="fa-map"}
 =======================================================================
-```{r,.no-mobile}
+```{r}
 leaflet(data = bandung) %>%
   addProviderTiles("CartoDB.Positron") %>%
   addPolygons(data = batas, fillColor = "blue", weight = 2 , color = "black", dashArray = 3,
@@ -250,7 +263,7 @@ leaflet(data = bandung) %>%
 
 Grafik {data-icon="fas fa-chart-line"}
 =======================================================================
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
 ### Grafik Kasus Positif Harian
 ```{r}
@@ -292,6 +305,19 @@ plot_ly(data = tren) %>%
     arrowsize = 1,
     showarrow = TRUE
   ) %>%
+  add_annotations(
+    x = as.Date("2020-05-30"),
+    y = 1,
+    text = "PSBB Lanjutan Kota Bandung",
+    textangle = 0,
+    ax = 0,
+    ay = -75,
+    font = list(color = "red", size = 12),
+    arrowhead = 1,
+    arrowcolor = "red",
+    arrowsize = 1,
+    showarrow = TRUE
+  ) %>%
   layout(
     title = "",
     yaxis = list(title = "Kasus Harian", range = c(0,45)),
@@ -300,7 +326,7 @@ plot_ly(data = tren) %>%
     hovermode = "compare")
 ```
 
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
 ### Grafik Kasus Sembuh Harian
 ```{r}
@@ -318,7 +344,7 @@ plot_ly(data = tren) %>%
   ) %>%
   add_annotations(
     x = as.Date("2020-04-22"),
-    y = 2,
+    y = 3,
     text = "PSBB Bandung Raya",
     textangle = 0,
     ax = 0,
@@ -331,8 +357,21 @@ plot_ly(data = tren) %>%
   ) %>%
   add_annotations(
     x = as.Date("2020-05-06"),
-    y = 0,
+    y = 1,
     text = "PSBB Provinsi Jawa Barat",
+    textangle = 0,
+    ax = 0,
+    ay = -40,
+    font = list(color = "red", size = 12),
+    arrowhead = 1,
+    arrowcolor = "red",
+    arrowsize = 1,
+    showarrow = TRUE
+  ) %>%
+  add_annotations(
+    x = as.Date("2020-05-30"),
+    y = 0,
+    text = "PSBB Lanjutan Kota Bandung",
     textangle = 0,
     ax = 0,
     ay = -40,
@@ -350,7 +389,7 @@ plot_ly(data = tren) %>%
     hovermode = "compare")
 ```
 
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
 ### Grafik Kasus Meninggal Harian
 ```{r}
@@ -392,6 +431,19 @@ plot_ly(data = tren) %>%
     arrowsize = 1,
     showarrow = TRUE
   ) %>%
+  add_annotations(
+    x = as.Date("2020-05-30"),
+    y = 0,
+    text = "PSBB Lanjutan Kota",
+    textangle = 0,
+    ax = 0,
+    ay = -70,
+    font = list(color = "red", size = 12),
+    arrowhead = 1,
+    arrowcolor = "red",
+    arrowsize = 1,
+    showarrow = TRUE
+  ) %>%
   layout(
     title = "",
     yaxis = list(title = "Kasus Harian", range = c(0,20)),
@@ -402,7 +454,7 @@ plot_ly(data = tren) %>%
 
 Data {data-icon="fas fa-table"}
 =======================================================================
-Row {.no-mobile}
+Row
 -----------------------------------------------------------------------
 ### Data Harian Covid-19 Kota Bandung
 ```{r}
@@ -417,7 +469,7 @@ Tentang {data-icon="fas fa-id-card"}
 
 Update Terakhir `r format(max(daily$Tanggal), '%d %B')`
 
-Dashboard ini dibuat menggunakan R dengan Framework Rmarkdown, Flexdashboard (R Package), RLeaflet (R Package), dan Plotly (R Package). Mohon Maaf Jika ada Kesalahan dalam input data maupun lainnya.
+Dashboard ini dibuat menggunakan R dengan Framework Rmarkdown, Flexdashboard (R Package), RLeaflet (R Package), dan Plotly (R Package).
 
 **Sumber Data**
 
