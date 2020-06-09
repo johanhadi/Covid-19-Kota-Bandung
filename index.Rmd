@@ -1,5 +1,5 @@
 ---
-title: "Dashboard Covid-19 Kota Bandung (Update 5 Juni 2020)"
+title: "Dashboard Covid-19 Kota Bandung (Update 9 Juni 2020)"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
@@ -43,9 +43,9 @@ tren$Tanggal <- as.Date(tren$Tanggal, origin = "1899-12-30")
 #------------------ Data ------------------
 daily$Tanggal <- as.Date(daily$Tanggal, origin = "1899-12-30")
 topkec$Kecamatan <- factor(topkec$Kecamatan, levels = unique(topkec$Kecamatan)[order(topkec$Total.Kasus, decreasing = TRUE)])
-jumlahpositif <- 309
-jumlahsembuh <- 137
-jumlahmeninggal <- 38
+jumlahpositif <- 344
+jumlahsembuh <- 145
+jumlahmeninggal <- 40
 jumlahtotal <- jumlahmeninggal+jumlahsembuh+jumlahpositif
 
 #------------------ Data Peta ------------------
@@ -83,12 +83,12 @@ Row
 ### Total Kasus
 ```{r}
 
-valueBox(jumlahtotal,caption = "Penambahan 2 Total Kasus", icon = "fas fa-user-md", color = "purple")
+valueBox(jumlahtotal,caption = "Penambahan 0 Total Kasus", icon = "fas fa-user-md", color = "purple")
 ```
 
 ### Positif
 ```{r}
-valueBox(jumlahpositif, caption = "Penambahan 2 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
+valueBox(jumlahpositif, caption = "Penambahan 0 Kasus Positif", icon = "fa-plus", color = "#1f77b4")
 ```
 
 ### Sembuh
@@ -150,7 +150,7 @@ add_trace(y = ~Meninggal,
                 name = "Meninggal",
                 marker = list(color = death_color)) %>%
 layout(title = "", barmode = 'stack',
-                 yaxis = list(title = "Total Kasus", range = c(0,60)),
+                 yaxis = list(title = "Total Kasus", range = c(0,65)),
                  legend = list(x = 0.9, y = 0.9, orientation ="h", xanchor ="center"),
                  hovermode = "compare")
 ```
